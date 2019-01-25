@@ -2,8 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Cake = require('../models/Cake');
 
-router.get('/', (req, res) => {
-  res.status(200).send('api is all gooooood');
+router.get('/cakes', async (req, res) => {
+  let result = await Cake.getAllCakesFromDB();
+  if (result.error) {
+    res.status(500).send('There was an error returning your cakes !');
+  }
+  res.status(200).send(result);
 });
 
 router.post('/cakes', async (req, res) => {
@@ -12,7 +16,6 @@ router.post('/cakes', async (req, res) => {
   }
 
   let cake = {
-    id: req.body.id,
     name: req.body.name,
     comment: req.body.comment,
     imageUrl: req.body.imageUrl,
@@ -20,6 +23,9 @@ router.post('/cakes', async (req, res) => {
   };
 
   let result = await Cake.addCakeToDB(cake);
+  if (result.error) {
+    res.status(500).send('There was an error trying to add your new cake !');
+  }
   res.status(200).send(result);
 });
 

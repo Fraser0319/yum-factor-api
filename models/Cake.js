@@ -30,13 +30,29 @@ async function addCakeToDB(cake) {
   });
 
   return new Promise((resolve, reject) => {
-      Cake.findOneAndUpdate({ _id: newCake.id }, newCake, { upsert: true }, err => {
+    Cake.findOneAndUpdate(
+      { _id: newCake.id },
+      newCake,
+      { upsert: true },
+      err => {
         if (err) {
           reject(err);
         }
         resolve(newCake);
-      });
-  })
-
+      }
+    );
+  });
 }
-module.exports = { addCakeToDB };
+
+async function getAllCakesFromDB() {
+  const Cake = schema.Cake;
+  return new Promise((resolve, reject) => {
+    Cake.find((err, callback) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(callback);
+    });
+  });
+}
+module.exports = { addCakeToDB, getAllCakesFromDB };
