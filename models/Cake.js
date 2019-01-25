@@ -55,4 +55,16 @@ async function getAllCakesFromDB() {
     });
   });
 }
-module.exports = { addCakeToDB, getAllCakesFromDB };
+
+async function removeCakeByIdFromDB(cakeId){
+    const Cake = schema.Cake;
+    return new Promise((resolve, reject) => {
+        Cake.findOneAndRemove({_id: cakeId }, (err, callback) => {
+            if(err){
+                reject(err);
+            }
+            resolve(callback);
+        })
+    })
+}
+module.exports = { addCakeToDB, getAllCakesFromDB, removeCakeByIdFromDB };
