@@ -1,0 +1,42 @@
+const schema = require('./../schema');
+const Promise = require('rsvp').Promise;
+
+// get the next id in the sequence.
+function getNextSequenceValue(sequenceName) {
+  return new Promise((resolve, reject) => {
+    schema.Counters.findOneAndUpdate(
+      { _id: sequenceName },
+      { $inc: { sequence_value: 1 } },
+      { upsert: true },
+      (err, callback) => {
+        if (err) {
+          reject(err);
+        }
+        return resolve(callback.sequence_value);
+      }
+    );
+  });
+}
+
+// add cake to the db.
+async function addCakeToDB(cake) {
+  const Cake = schema.Cake;
+  let newCake = new Cake({
+    _id: await getNextSequenceValue('cakeId'),
+    name: cake.name,
+    comment: cake.comment,
+    imageUrl: cake.imageUrl,
+    yumFactor: cake.yumFactor
+  });
+
+  return new Promise((resolve, reject) => {
+      Cake.findOneAndUpdate({ _id: newCake.id }, newCake, { upsert: true }, err => {
+        if (err) {
+          reject(err);
+        }
+        resolve(newCake);
+      });
+  })
+
+}
+module.exports = { addCakeToDB };

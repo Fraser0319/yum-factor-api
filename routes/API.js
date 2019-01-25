@@ -1,33 +1,26 @@
 const express = require('express');
 const router = express.Router();
+const Cake = require('../models/Cake');
 
 router.get('/', (req, res) => {
   res.status(200).send('api is all gooooood');
 });
 
-router.post('/cakes', (req, res) => {
+router.post('/cakes', async (req, res) => {
   if (!req.body) {
     res.status(400).send('Bad Request');
   }
-  var id = req.body.id;
-  var name = req.body.name;
-  var comment = req.body.comment;
-  var imageUrl = req.body.imageUrl;
-  var yumFactor = req.body.yumFactor;
 
-  console.log(
-    'id: ' +
-      id +
-      ', name: ' +
-      name +
-      ' comment: ' +
-      comment +
-      ' imageUrl: ' +
-      imageUrl +
-      ' yumFactor: ' +
-      yumFactor
-  );
-  res.stauts(200).send('yes');
+  let cake = {
+    id: req.body.id,
+    name: req.body.name,
+    comment: req.body.comment,
+    imageUrl: req.body.imageUrl,
+    yumFactor: req.body.yumFactor
+  };
+
+  let result = await Cake.addCakeToDB(cake);
+  res.status(200).send(result);
 });
 
 router.put('/cakes', (req, res) => res.send());

@@ -2,13 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var CakeSchema = new Schema({
-  id: Number,
+  _id: Number,
   name: String,
   comment: String,
   imageUrl: String,
   yumFactor: String
 });
 
-var Cake = mongoose.model('Cake', CakeSchema);
+var CountersSchema = new Schema({
+    _id: String,
+    sequence_value: Number
+});
 
-module.exports = { Cake };
+var Cake = mongoose.model('Cake', CakeSchema);
+var Counters = mongoose.model('Counters', CountersSchema);
+
+module.exports = { Cake, Counters };
