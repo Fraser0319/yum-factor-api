@@ -10,12 +10,12 @@ router.get('/cakes', async (req, res) => {
   res.status(200).send(result);
 });
 
-router.get("/cake", async (req, res) => {
-    let result = await Cake.getCakeByIdFromDB(req.body.id);
-    if(result == null) {
-        res.status(500).send("Couldnt find that cake !");
-    }
-    res.status(200).send(result);
+router.get('/cake/:id', async (req, res) => {
+  let result = await Cake.getCakeByIdFromDB(req.params.id);
+  if (result == null) {
+    res.status(500).send('Couldnt find that cake !');
+  }
+  res.status(200).send(result);
 });
 
 router.post('/cakes', async (req, res) => {
@@ -37,13 +37,12 @@ router.post('/cakes', async (req, res) => {
   res.status(200).send(result);
 });
 
-router.put('/cakes', (req, res) => res.send());
+router.put('/cakes/:id', (req, res) => res.send());
 
-router.delete('/cakes', async (req, res) => {
-
-    console.log(req.body.id);
-    let result = await Cake.removeCakeByIdFromDB(req.body.id);
-    res.status(204).send(result)
+router.delete('/cakes/:id', async (req, res) => {
+  console.log(req.body.id);
+  let result = await Cake.removeCakeByIdFromDB(req.params.id);
+  res.status(204).send(result);
 });
 
 module.exports = router;
