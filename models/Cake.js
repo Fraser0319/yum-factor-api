@@ -56,15 +56,32 @@ async function getAllCakesFromDB() {
   });
 }
 
-async function removeCakeByIdFromDB(cakeId){
-    const Cake = schema.Cake;
-    return new Promise((resolve, reject) => {
-        Cake.findOneAndRemove({_id: cakeId }, (err, callback) => {
-            if(err){
-                reject(err);
-            }
-            resolve(callback);
-        })
-    })
+async function removeCakeByIdFromDB(cakeId) {
+  const Cake = schema.Cake;
+  return new Promise((resolve, reject) => {
+    Cake.findOneAndRemove({ _id: cakeId }, (err, callback) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(callback);
+    });
+  });
 }
-module.exports = { addCakeToDB, getAllCakesFromDB, removeCakeByIdFromDB };
+
+async function getCakeByIdFromDB(cakeId) {
+  const Cake = schema.Cake;
+  return new Promise((resolve, reject) => {
+    Cake.findById({ _id: cakeId }, (err, callback) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(callback);
+    });
+  });
+}
+module.exports = {
+  addCakeToDB,
+  getAllCakesFromDB,
+  removeCakeByIdFromDB,
+  getCakeByIdFromDB
+};

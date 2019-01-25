@@ -10,6 +10,14 @@ router.get('/cakes', async (req, res) => {
   res.status(200).send(result);
 });
 
+router.get("/cake", async (req, res) => {
+    let result = await Cake.getCakeByIdFromDB(req.body.id);
+    if(result == null) {
+        res.status(500).send("Couldnt find that cake !");
+    }
+    res.status(200).send(result);
+});
+
 router.post('/cakes', async (req, res) => {
   if (!req.body) {
     res.status(400).send('Bad Request');
