@@ -32,7 +32,9 @@ router.post('/cakes', async (req, res) => {
 router.put('/cakes', (req, res) => res.send());
 
 router.delete('/cakes', async (req, res) => {
-    let result = await Cake.removeCakeByIdFromDB(2);
+
+    console.log(req.body.id);
+    let result = await Cake.removeCakeByIdFromDB(req.body.id);
     res.status(204).send(result)
 });
 
